@@ -23,9 +23,13 @@
     
     toggle.style.background = pair.btn;
     panel.style.setProperty('--btn-color', pair.btn);
+    
+    localStorage.setItem('form-theme', pair.name);
   }
 
-  const defaultTheme = colorPairs.find(p => p.name === 'Slate') || colorPairs[0];
+  const savedThemeName = localStorage.getItem('form-theme');
+  const savedTheme = colorPairs.find(p => p.name === savedThemeName);
+  const defaultTheme = savedTheme || colorPairs.find(p => p.name === 'Slate') || colorPairs[0];
 
   const style = document.createElement('style');
   style.textContent = `
