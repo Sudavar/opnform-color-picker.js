@@ -1,4 +1,4 @@
-<script>(function() {
+(function() {
   const colorPairs = [
     { name: 'Cloud', bg: '#F8FAFC', btn: '#0F172A' },
     { name: 'Sand', bg: '#FAF7F2', btn: '#78716C' },
@@ -98,4 +98,4 @@
 
   applyTheme(defaultTheme);
 })();
-</script>
+
