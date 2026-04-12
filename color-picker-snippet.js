@@ -1,13 +1,10 @@
 (function() {
   const colorPairs = [
-    { name: 'Cloud', bg: '#F8FAFC', btn: '#0F172A' },
     { name: 'Sand', bg: '#FAF7F2', btn: '#78716C' },
     { name: 'Dawn', bg: '#FFF7ED', btn: '#EA580C' },
     { name: 'Mist', bg: '#F0F9FF', btn: '#0284C7' },
     { name: 'Lavender', bg: '#FAF5FF', btn: '#7C3AED' },
     { name: 'Jade', bg: '#ECFDF5', btn: '#047857' },
-    { name: 'Blush', bg: '#FDF2F8', btn: '#DB2777' },
-    { name: 'Oasis', bg: '#F0FDFA', btn: '#0D9488' },
     { name: 'Ivory', bg: '#FEFDFB', btn: '#B45309' },
     { name: 'Slate', bg: '#F1F5F9', btn: '#334155' },
     { name: 'Rose', bg: '#FFF1F2', btn: '#BE123C' },
@@ -62,9 +59,19 @@
       z-index: 9999;
       gap: 8px;
       flex-wrap: wrap;
-      max-width: 192px;
+      max-width: 148px;
     }
     #color-picker-panel.open { display: flex; }
+    #color-picker-panel .panel-title {
+      width: 100%;
+      font-size: 12px;
+      font-weight: 600;
+      color: #374151;
+      text-align: center;
+      margin-bottom: 4px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid #E5E7EB;
+    }
     .color-swatch {
       width: 36px;
       height: 36px;
@@ -84,6 +91,12 @@
 
   const panel = document.createElement('div');
   panel.id = 'color-picker-panel';
+  
+  const title = document.createElement('div');
+  title.className = 'panel-title';
+  title.textContent = 'Form Style';
+  panel.appendChild(title);
+  
   colorPairs.forEach(pair => {
     const swatch = document.createElement('div');
     swatch.className = 'color-swatch';
@@ -94,7 +107,16 @@
   });
   document.body.appendChild(panel);
 
-  toggle.addEventListener('click', () => panel.classList.toggle('open'));
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    panel.classList.toggle('open');
+  });
+
+  document.addEventListener('click', (e) => {
+    if (!panel.contains(e.target) && !toggle.contains(e.target)) {
+      panel.classList.remove('open');
+    }
+  });
 
   applyTheme(defaultTheme);
 })();
