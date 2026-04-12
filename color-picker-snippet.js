@@ -11,7 +11,13 @@
     { name: 'Sage', bg: '#F0FDF4', btn: '#15803D' },
   ];
 
-  function applyTheme(pair) {
+  const darkColorPairs = [
+    { name: 'Midnight', bg: '#0F172A', btn: '#60A5FA' },
+    { name: 'Charcoal', bg: '#1C1917', btn: '#A78BFA' },
+    { name: 'Ocean', bg: '#0C1929', btn: '#22D3EE' },
+  ];
+
+  function applyTheme(pair, isDark) {
     const app = document.getElementById('app');
     if (app) app.style.backgroundColor = pair.bg;
     
@@ -21,14 +27,31 @@
       formContainer.style.setProperty('--color-form', pair.btn);
     }
     
+    const fieldHelp = document.querySelectorAll('.field-help p');
+    fieldHelp.forEach(el => el.style.color = isDark ? '#F3F4F6' : '');
+    
+    const textBlockColor = isDark ? 'var(--ui-color-neutral-100)' : 'var(--ui-color-neutral-900)';
+    const textBlockEls = document.querySelectorAll('.text-block div h1, .text-block div p');
+    textBlockEls.forEach(el => el.style.color = textBlockColor);
+    
     toggle.style.background = pair.btn;
     panel.style.setProperty('--btn-color', pair.btn);
+    
+    const textColor = isDark ? '#F3F4F6' : '#374151';
+    const mutedColor = isDark ? '#9CA3AF' : '#9CA3AF';
+    const borderColor = isDark ? '#374151' : '#E5E7EB';
+    const panelBg = isDark ? '#1F2937' : '#FFFFFF';
+    
+    panel.style.background = panelBg;
+    panel.querySelector('.panel-title').style.color = textColor;
+    panel.querySelector('.panel-divider').style.background = borderColor;
+    panel.querySelectorAll('.panel-section-title').forEach(el => el.style.color = mutedColor);
     
     localStorage.setItem('form-theme', pair.name);
   }
 
   const savedThemeName = localStorage.getItem('form-theme');
-  const savedTheme = colorPairs.find(p => p.name === savedThemeName);
+  const savedTheme = [...colorPairs, ...darkColorPairs].find(p => p.name === savedThemeName);
   const defaultTheme = savedTheme || colorPairs.find(p => p.name === 'Slate') || colorPairs[0];
 
   const style = document.createElement('style');
@@ -76,6 +99,22 @@
       padding-bottom: 8px;
       border-bottom: 1px solid #E5E7EB;
     }
+    #color-picker-panel .panel-divider {
+      width: 100%;
+      height: 1px;
+      background: #E5E7EB;
+      margin: 6px 0;
+    }
+    #color-picker-panel .panel-section-title {
+      width: 100%;
+      font-size: 10px;
+      font-weight: 600;
+      color: #9CA3AF;
+      text-transform: uppercase;
+      text-align: center;
+      letter-spacing: 0.5px;
+      margin-bottom: 2px;
+    }
     .color-swatch {
       width: 36px;
       height: 36px;
@@ -101,14 +140,38 @@
   title.textContent = 'Form Style';
   panel.appendChild(title);
   
+  const lightTitle = document.createElement('div');
+  lightTitle.className = 'panel-section-title';
+  lightTitle.textContent = 'Light';
+  panel.appendChild(lightTitle);
+  
   colorPairs.forEach(pair => {
     const swatch = document.createElement('div');
     swatch.className = 'color-swatch';
     swatch.style.backgroundColor = pair.bg;
     swatch.title = pair.name;
-    swatch.addEventListener('click', () => applyTheme(pair));
+    swatch.addEventListener('click', () => applyTheme(pair, false));
     panel.appendChild(swatch);
   });
+  
+  const divider = document.createElement('div');
+  divider.className = 'panel-divider';
+  panel.appendChild(divider);
+  
+  const darkTitle = document.createElement('div');
+  darkTitle.className = 'panel-section-title';
+  darkTitle.textContent = 'Dark';
+  panel.appendChild(darkTitle);
+  
+  darkColorPairs.forEach(pair => {
+    const swatch = document.createElement('div');
+    swatch.className = 'color-swatch';
+    swatch.style.backgroundColor = pair.bg;
+    swatch.title = pair.name;
+    swatch.addEventListener('click', () => applyTheme(pair, true));
+    panel.appendChild(swatch);
+  });
+  
   document.body.appendChild(panel);
 
   toggle.addEventListener('click', (e) => {
@@ -122,6 +185,7 @@
     }
   });
 
-  applyTheme(defaultTheme);
+  const isDarkDefault = darkColorPairs.some(p => p.name === defaultTheme.name);
+  applyTheme(defaultTheme, isDarkDefault);
 })();
 
