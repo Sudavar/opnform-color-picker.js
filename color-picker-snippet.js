@@ -27,12 +27,7 @@
       formContainer.style.setProperty('--color-form', pair.btn);
     }
     
-    const fieldHelp = document.querySelectorAll('.field-help p');
-    fieldHelp.forEach(el => el.style.color = isDark ? '#F3F4F6' : '');
-    
-    const textBlockColor = isDark ? 'var(--ui-color-neutral-100)' : 'var(--ui-color-neutral-900)';
-    const textBlockEls = document.querySelectorAll('.text-block div h1, .text-block div p');
-    textBlockEls.forEach(el => el.style.color = textBlockColor);
+    applyTextStyles(isDark);
     
     toggle.style.background = pair.btn;
     panel.style.setProperty('--btn-color', pair.btn);
@@ -48,9 +43,20 @@
     panel.querySelectorAll('.panel-section-title').forEach(el => el.style.color = mutedColor);
     
     localStorage.setItem('form-theme', pair.name);
+    localStorage.setItem('form-theme-dark', isDark ? 'true' : 'false');
+  }
+
+  function applyTextStyles(isDark) {
+    const fieldHelp = document.querySelectorAll('.field-help p');
+    fieldHelp.forEach(el => el.style.color = isDark ? '#F3F4F6' : '');
+    
+    const textBlockColor = isDark ? 'var(--ui-color-neutral-100)' : 'var(--ui-color-neutral-900)';
+    const textBlockEls = document.querySelectorAll('.text-block div h1, .text-block div p');
+    textBlockEls.forEach(el => el.style.color = textBlockColor);
   }
 
   const savedThemeName = localStorage.getItem('form-theme');
+  const savedThemeDark = localStorage.getItem('form-theme-dark') === 'true';
   const savedTheme = [...colorPairs, ...darkColorPairs].find(p => p.name === savedThemeName);
   const defaultTheme = savedTheme || colorPairs.find(p => p.name === 'Slate') || colorPairs[0];
 
@@ -185,7 +191,18 @@
     }
   });
 
-  const isDarkDefault = darkColorPairs.some(p => p.name === defaultTheme.name);
+  const isDarkDefault = savedThemeDark || darkColorPairs.some(p => p.name === defaultTheme.name);
   applyTheme(defaultTheme, isDarkDefault);
+
+  const observer = new MutationObserver(() => {
+    const currentThemeName = localStorage.getItem('form-theme');
+    const currentThemeDark = localStorage.getItem('form-theme-dark') === 'true';
+    const currentTheme = [...colorPairs, ...darkColorPairs].find(p => p.name === currentThemeName);
+    if (currentTheme) {
+      applyTextStyles(currentThemeDark);
+    }
+  });
+
+  observer.observe(document.body, { childList: true, subtree: true });
 })();
 
