@@ -47,12 +47,27 @@
   }
 
   function applyTextStyles(isDark) {
+    const darkCss = `
+      .form-description { color: var(--ui-color-neutral-200) !important; }
+      .text-block div h1, .text-block div h2, .text-block div h3, 
+      .text-block div h4, .text-block div p { color: var(--ui-color-neutral-100) !important; }
+    `;
+    const lightCss = `
+      .form-description { color: var(--ui-color-neutral-700) !important; }
+      .text-block div h1, .text-block div h2, .text-block div h3, 
+      .text-block div h4, .text-block div p { color: var(--ui-color-neutral-900) !important; }
+    `;
+    
+    let styleTag = document.getElementById('form-theme-override');
+    if (!styleTag) {
+      styleTag = document.createElement('style');
+      styleTag.id = 'form-theme-override';
+      document.head.appendChild(styleTag);
+    }
+    styleTag.textContent = isDark ? darkCss : lightCss;
+    
     const fieldHelp = document.querySelectorAll('.field-help p');
     fieldHelp.forEach(el => el.style.color = isDark ? '#F3F4F6' : '');
-    
-    const textBlockColor = isDark ? 'var(--ui-color-neutral-100)' : 'var(--ui-color-neutral-900)';
-    const textBlockEls = document.querySelectorAll('.text-block div h1, .text-block div p');
-    textBlockEls.forEach(el => el.style.color = textBlockColor);
   }
 
   const savedThemeName = localStorage.getItem('form-theme');
