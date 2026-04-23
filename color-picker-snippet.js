@@ -1,20 +1,20 @@
 (function() {
   const colorPairs = [
-    { name: 'Sand', bg: '#FAF7F2', btn: '#78716C' },
-    { name: 'Dawn', bg: '#FFF7ED', btn: '#EA580C' },
-    { name: 'Mist', bg: '#F0F9FF', btn: '#0284C7' },
+    { name: 'Forest',   bg: '#f2f9f5', btn: '#1b4332' },
+    { name: 'Daphne',   bg: '#F7FBF8', btn: '#2D6A4F' },
+    { name: 'Olive',    bg: '#F5F7F0', btn: '#4A6741' },
+    { name: 'Ivory',    bg: '#FEFDFB', btn: '#B45309' },
+    { name: 'Dawn',     bg: '#FFF7ED', btn: '#EA580C' },
+    { name: 'Slate',    bg: '#F1F5F9', btn: '#334155' },
+    { name: 'Navy',     bg: '#EEF3FA', btn: '#1E3A5F' },
+    { name: 'Mist',     bg: '#F0F9FF', btn: '#0284C7' },
     { name: 'Lavender', bg: '#FAF5FF', btn: '#7C3AED' },
-    { name: 'Jade', bg: '#ECFDF5', btn: '#047857' },
-    { name: 'Ivory', bg: '#FEFDFB', btn: '#B45309' },
-    { name: 'Slate', bg: '#F1F5F9', btn: '#334155' },
-    { name: 'Rose', bg: '#FFF1F2', btn: '#BE123C' },
-    { name: 'Sage', bg: '#F0FDF4', btn: '#15803D' },
   ];
 
   const darkColorPairs = [
+    { name: 'Forest',   bg: '#0D2118', btn: '#74C69D' },
     { name: 'Midnight', bg: '#0F172A', btn: '#60A5FA' },
     { name: 'Charcoal', bg: '#1C1917', btn: '#A78BFA' },
-    { name: 'Ocean', bg: '#0C1929', btn: '#22D3EE' },
   ];
 
   function applyTheme(pair, isDark) {
@@ -49,8 +49,9 @@
   function applyTextStyles(isDark) {
     const darkCss = `
       .form-description { color: var(--ui-color-neutral-200) !important; }
-      .text-block div h1, .text-block div h2, .text-block div h3, 
+      .text-block div h1, .text-block div h2, .text-block div h3,
       .text-block div h4, .text-block div p { color: var(--ui-color-neutral-100) !important; }
+      .text-red-500 { color: #c23e42 !important; }
     `;
     const lightCss = `
       .form-description { color: var(--ui-color-neutral-700) !important; }
@@ -73,7 +74,7 @@
   const savedThemeName = localStorage.getItem('form-theme');
   const savedThemeDark = localStorage.getItem('form-theme-dark') === 'true';
   const savedTheme = [...colorPairs, ...darkColorPairs].find(p => p.name === savedThemeName);
-  const defaultTheme = savedTheme || colorPairs.find(p => p.name === 'Slate') || colorPairs[0];
+  const defaultTheme = savedTheme || colorPairs.find(p => p.name === 'Forest') || colorPairs[0];
 
   const style = document.createElement('style');
   style.textContent = `
