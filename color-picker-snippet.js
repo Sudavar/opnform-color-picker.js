@@ -12,7 +12,7 @@
   ];
 
   const darkColorPairs = [
-    { name: 'Forest',   bg: '#0D2118', btn: '#74C69D' },
+    { name: 'Grove',    bg: '#0D2118', btn: '#74C69D' },
     { name: 'Midnight', bg: '#0F172A', btn: '#60A5FA' },
     { name: 'Charcoal', bg: '#1C1917', btn: '#A78BFA' },
   ];
@@ -74,7 +74,7 @@
   const savedThemeName = localStorage.getItem('form-theme');
   const savedThemeDark = localStorage.getItem('form-theme-dark') === 'true';
   const savedTheme = [...colorPairs, ...darkColorPairs].find(p => p.name === savedThemeName);
-  const defaultTheme = savedTheme || colorPairs.find(p => p.name === 'Forest') || colorPairs[0];
+  const defaultTheme = savedTheme || colorPairs.find(p => p.name === 'Daphne') || colorPairs[0];
 
   const style = document.createElement('style');
   style.textContent = `
