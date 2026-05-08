@@ -50,13 +50,13 @@
     const darkCss = `
       .form-description { color: var(--ui-color-neutral-200) !important; }
       .text-block div h1, .text-block div h2, .text-block div h3,
-      .text-block div h4, .text-block div p { color: var(--ui-color-neutral-100) !important; }
+      .text-block div h4 { color: var(--ui-color-neutral-100) !important; }
       .text-red-500 { color: #c23e42 !important; }
     `;
     const lightCss = `
       .form-description { color: var(--ui-color-neutral-700) !important; }
       .text-block div h1, .text-block div h2, .text-block div h3, 
-      .text-block div h4, .text-block div p { color: var(--ui-color-neutral-900) !important; }
+      .text-block div h4 { color: var(--ui-color-neutral-900) !important; }
     `;
     
     let styleTag = document.getElementById('form-theme-override');
